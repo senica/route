@@ -96,6 +96,18 @@ describe('Core specs', function() {
     expect(counter).to.be(2)
   })
 
+  it('detects link clicked with deconstructor', function() {
+    route.base('/')
+    route(function(first, second) {
+      counter++
+    }, function(){
+      counter--
+    })
+    fireEvent($('.tag-g'), 'click') // + 1
+    fireEvent($('.tag-h'), 'click') // deconstruct -1 + 1
+    expect(counter).to.be(1)
+  })
+
   it('ignore link clicked in some cases', function() {
     route(function() {
       counter++
@@ -165,6 +177,21 @@ describe('Core specs', function() {
     fireEvent($('.tag-g'), 'click')
     fireEvent($('.tag-h'), 'click')
     expect(counter).to.be(2)
+  })
+
+  it('set routing and filter with deconstructor', function() {
+    route.base('/')
+    route('fruit', function(first) {
+      counter++
+      expect(first).to.be(undefined)
+    }, function(){
+      counter--
+    })
+    route('fruit') // +1
+    route('fruit/apple') // no match -1 from deconstructor
+    fireEvent($('.tag-g'), 'click') // +1
+    fireEvent($('.tag-h'), 'click') // no match -1 from deconstructor
+    expect(counter).to.be(0)
   })
 
   it('sets routing and filter with wildcard(*)', function() {
