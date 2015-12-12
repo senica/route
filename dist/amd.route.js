@@ -52,6 +52,8 @@ function DEFAULT_SECOND_PARSER(path, filter) {
 
 /**
  * Set the listener to trigger the routes
+ * and trigger automatically the first route
+ * @param {boolean} autoExec - see route.start
  */
 function start(autoExec) {
   win[ADD_EVENT_LISTENER](POPSTATE, emit)
